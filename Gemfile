@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 ruby '2.1.5'
 
 #windows
+gem 'turbolinks'
 gem 'tzinfo-data'
 gem 'execjs'
 gem 'coffee-script-source', '1.8.0'
