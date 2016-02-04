@@ -1,0 +1,4 @@
+Setup.txt
+---------
+bundle install
+rake db:migrate
