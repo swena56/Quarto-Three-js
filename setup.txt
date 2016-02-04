@@ -15,3 +15,14 @@ git push -u origin master
 add turbo links to application layout
 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+ 
+ //= require three-js/three
+//= require three-js/three.min
+//= require three-js/Detector
+//= require three-js/CanvasRenderer.js
+//= require three-js/Projector.js
+//= require three-js/stats.min.js
+//= require collada/Animation
+//= require collada/ColladaLoader
+//= require collada/AnimationHandler.js
+//= require collada/KeyFrameAnimation.js
