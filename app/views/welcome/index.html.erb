@@ -19,26 +19,21 @@
 		 width: 100%;
 		 text-align: center;
 		 z-index: 100;
-		 display:block;
-		 
+		 display:block;		 
 		 }
 		 
 		 a { color: skyblue }
-	 </style>
- 
+	 </style> 
  </head>
  <body>
-
 	 <div id="info">
 		 <a href="http://threejs.org" target="_blank"></a>
-		 <p> By: Andrew Swenson </p>
+		 <p> By: Andrew Swenson </p> <a href="welcome/notes">Click here to see how it works.</a>
 	 </div>
-	<script>
-			
+	<script>			
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 			
-			var container, stats;
-			
+			var container, stats;			
 			var camera, scene, renderer, objects;
 			var particleLight;
 			var dae;
@@ -54,12 +49,9 @@
 					if ( child instanceof THREE.SkinnedMesh ) {
 						
 						var animation = new THREE.Animation( child, child.geometry.animation );
-						animation.play();
-						
-					}
-					
-				} );
-				
+						animation.play();						
+					}					
+				} );				
 				dae.scale.x = dae.scale.y = dae.scale.z = 0.8;
 				dae.updateMatrix();
 				
