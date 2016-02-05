@@ -23,6 +23,7 @@ group :development, :test do
   gem 'spring', '~> 1.3.6'
 end
 gem 'bootstrap-sass'
+#gem 'autoprefixer-rails'
 gem 'devise'
 gem 'gibbon'
 gem 'stripe'

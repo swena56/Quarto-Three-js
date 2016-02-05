@@ -26,13 +26,34 @@
 	Global ambiguities are often unnoticed because the reader tends to choose the meaning he or she understands to be more probable. 
 	One example of a global ambiguity is "The woman held the baby in the green blanket." In this example, the baby could be wrapped in the green blanket or the woman could be using the green blanket as an instrument to hold the baby. </p>
 	
+	<p> Press F12 to view the source code </p>
+	
+	<p> Convert Obj model to js with python script provided by three.js called...</p>
+	-texture it
+	-learn orbit controll
+	<pre>
+	 var jsonLoader = new THREE.JSONLoader();
+	 jsonLoader.load( "obj/tree.js", createScene );			
+	 
+	 function createScene( geometry, materials ) {
+	 var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+	 mesh.scale.set(10,10,10);
+	 scene.add(mesh);
+	 }
+	 <pre>
 <p>
 	<pre>&ltscript&gt &lt/script&gt</pre>
 </p>
 	<h1> Resources </h1>
 	<a href="http://threejs.org/">http://threejs.org/</a><br>
 	<a href="http://threejs.org/docs/">http://threejs.org/docs</a><br>
-	<a href="https://www.script-tutorials.com/webgl-with-three-js-lesson-10/">Script-Tutorials</a>	
-	<br><a href="welcome">Back</a>		
+	<a href="https://www.script-tutorials.com/webgl-with-three-js-lesson-10/">Script-Tutorials</a><br>	
+	<a href="https://stemkoski.github.io/Three.js/">Stemkoski</a><br>
+	<br><a href="/">Back</a>
+		
+	<script>
+		
+	</script>
+		
  </body>
 </html>

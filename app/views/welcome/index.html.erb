@@ -30,6 +30,8 @@
 		 <a href="http://threejs.org" target="_blank"></a>
 		 <p> By: Andrew Swenson </p> <a href="welcome/notes">Click here to see how it works.</a>
 	 </div>
+	 <div>
+	 </div>
 	<script>			
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 			
@@ -37,7 +39,50 @@
 			var camera, scene, renderer, objects;
 			var particleLight;
 			var dae;
+			var wireframeTrueOrFalse = false;
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
 			
+		var board = [[3.7,0,-0.7],[0,0,0],[0,0,0],[0,0,0],
+						[0,0,0],[0,0,0],[0,0,0],[0,0,0],
+						[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+		//peice_name, offboard position, current_position,color
+		var peices = [["obj/board.js",[0,0,0] , [0,0,0],"rgb(0,0,50)"],    //0 0 0 
+		["obj/p1.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],		//3.1 -0.7
+		["obj/p2.js",[0,0,0] , [0,0,0],"rgb(50,50,0)"],
+		["obj/p3.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p4.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p5.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p6.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p7.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p8.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p9.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p10.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p11.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p12.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p13.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p14.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p15.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"],
+		["obj/p16.js",[0,0,0] , [0,0,0],"rgb(50,0,0)"]
+		];
+		var pieces1 = [[0,"obj/board.js",[0,0,0] , [0,0,0]],
+		[1,"obj/p1.js",[0,0,0] , [0,0,0]],
+		[2,"obj/p2.js",[0,0,0] , [0,0,0]],
+		[3,"obj/p3.js",[0,0,0] , [0,0,0]],
+		[4,"obj/p4.js",[0,0,0] , [0,0,0]],
+		[5,"obj/p5.js",[0,0,0] , [0,0,0]],
+		[6,"obj/p6.js",[0,0,0] , [0,0,0]],
+		[7,"obj/p7.js",[0,0,0] , [0,0,0]],
+		[8,"obj/p8.js",[0,0,0] , [0,0,0]],
+		[9,"obj/p9.js",[0,0,0] , [0,0,0]],
+		[10,"obj/p10.js",[0,0,0] , [0,0,0]],
+		[11,"obj/p11.js",[0,0,0] , [0,0,0]],
+		[12,"obj/p12.js",[0,0,0] , [0,0,0]],
+		[13,"obj/p13.js",[0,0,0] , [0,0,0]],
+		[14,"obj/p14.js",[0,0,0] , [0,0,0]],
+		[15,"obj/p15.js",[0,0,0] , [0,0,0]],
+		[16,"obj/p16.js",[0,0,0] , [0,0,0]]
+		];
 			var loader = new THREE.ColladaLoader();
 			loader.options.convertUpAxis = true;
 			loader.load( 'collada/quartoBlend.dae', function ( collada ) {
@@ -60,6 +105,16 @@
 				
 			} );
 			
+		
+		function onMouseMove( event ) {
+			
+			// calculate mouse position in normalized device coordinates
+			// (-1 to +1) for both components
+			
+			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;		
+			
+		}
 			function init() {
 				
 				container = document.createElement( 'div' );
@@ -92,7 +147,7 @@
 				
 				// Add the COLLADA
 				
-				scene.add( dae );
+				//scene.add( dae );
 				
 				particleLight = new THREE.Mesh( new THREE.SphereGeometry( 4, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
 				scene.add( particleLight );
@@ -109,7 +164,7 @@
 				scene.add( directionalLight );
 				
 				var pointLight = new THREE.PointLight( 0xffffff, 4 );
-				//particleLight.add( pointLight );
+				particleLight.add( pointLight );
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -120,9 +175,41 @@
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
 				container.appendChild( stats.domElement );
+						
+				var jsonLoader = new THREE.JSONLoader();																	
+				jsonLoader.load( "obj/board.js", createScene );	
+				jsonLoader.load( "obj/p1.js", createScene );
+				jsonLoader.load( "obj/p2.js", createScene );
+				jsonLoader.load( "obj/p3.js", createScene );
+				jsonLoader.load( "obj/p4.js", createScene );
+				jsonLoader.load( "obj/p5.js", createScene );
+				jsonLoader.load( "obj/p6.js", createScene );
+				jsonLoader.load( "obj/p7.js", createScene );
+				jsonLoader.load( "obj/p8.js", createScene );
 				
-				//
-				
+				//http://threejs.org/docs/#Reference/Materials/MeshLambertMaterial
+				//new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+				//var mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: new THREE.Color("rgb(100, 0, 0)"), wireframe: wireframeTrueOrFalse } ) );
+				var count = 0;
+				function createScene( geometry, materials ) {
+				//console.log(geometry);
+				//console.log(materials);
+					var color = "".concat(peices[count][3]);
+					console.log(color);
+					var mesh = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: new THREE.Color(color), wireframe: wireframeTrueOrFalse } ) );
+					mesh.scale.set(1,1,1);
+					//mesh.position = new THREE.Vector3(peices[count][1][0],peices[count][1][1],peices[count][1][2]);
+					
+					mesh.position.set(peices[count][1][0],peices[count][1][1],peices[count][1][2]);
+					console.log(mesh.position);
+					//mesh.translateX( peices[count][1][0] );
+					//mesh.translateY( peices[count][1][1] );
+					//mesh.translateZ( peices[count][1][2] );
+					mesh.name = peices[count][0];
+					count++;
+					scene.add(mesh);
+					//console.log(mesh);
+				}									
 				window.addEventListener( 'resize', onWindowResize, false );
 				
 			}
@@ -135,8 +222,6 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				
 			}
-			
-			//
 			
 			function animate() {
 				
@@ -165,9 +250,35 @@
 				
 				THREE.AnimationHandler.update( clock.getDelta() );
 				
+				raycaster.setFromCamera( mouse, camera );	
+				
+				//set default color
+				scene.children[4].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[0][3]), wireframe: wireframeTrueOrFalse } );
+				scene.children[5].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[1][3]), wireframe: wireframeTrueOrFalse } );
+				scene.children[6].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[2][3]), wireframe: wireframeTrueOrFalse } );
+				scene.children[7].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[3][3]), wireframe: wireframeTrueOrFalse } );
+				scene.children[8].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[4][3]), wireframe: wireframeTrueOrFalse } );
+				scene.children[9].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[5][3]), wireframe: wireframeTrueOrFalse } )
+				scene.children[10].material = new THREE.MeshLambertMaterial( { color: new THREE.Color(peices[6][3]), wireframe: wireframeTrueOrFalse } );
+				
+				
+				// calculate objects intersecting the picking ray
+			//var object = scene.getObjectByName( "objectName", true );
+				var intersects = raycaster.intersectObjects( scene.children);
+				 
+				//console.log(intersects);
+				if (intersects.length > 0) 
+				{
+		
+					intersects[ 0 ].object.material = new THREE.MeshLambertMaterial( { color: new THREE.Color("rgb(0,99,0)"), wireframe: wireframeTrueOrFalse } );
+				
+				}
 				renderer.render( scene, camera );
 				
 			}
+		window.addEventListener( 'mousemove', onMouseMove, false );
+		
+		window.requestAnimationFrame(render);
 			
 		</script>
 			
