@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<title>Basic Renderering Example</title>
+
+<body>
+<h1>Basic Renderering Example</h1>
+<p>This is a basic example of three.js</p>
+<p>The rendering will take place inside of a &ltdiv&gt tag</p>
+
+<script>
+
+	var camera, controls, scene, renderer;
+	
+	init();
+	animate();
+	
+	function init()
+	{
+		camera = new THREE.PerspectiveCamera(45, window.innerWidth/ window.innerHeight, 1, 1000);
+		camera.position.z =  500;
+		
+		controls = new THREE.TrackballControls( camera);
+		controls.addEventListener('change', render);
+		
+		scene = new THREE.Scene();
+		
+		var geometry = new THREE.CubeGeometry(100,100,100);
+		var material = new THREE.MeshNormalMaterial();
+		var mesh = new THREE.Mesh(geometry, material);
+		scene.add(mesh);
+		
+		renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		//render.setClearColor(new THREE.Color("rgb(50,50,0"));
+		document.body.appendChild(renderer.domElement);
+		
+	}
+	function animate()
+	{
+		requestAnimationFrame(animate);
+		controls.update();
+		
+	}
+	function render()
+	{
+		renderer.render(scene, camera);
+	}
+</script>
+
+<h1> Resources </h1>
+<a href="https://www.youtube.com/watch?v=ltHnn-uldoA&list=PLOGomoq5sDLutXOHLlESKG2j9CCnCwVqg#t=130.738134">Basics Video</a>
+<a href="https://developers.google.com/speed/libraries/">Speed Development Libraries</a>
+</body>
+
+
+
+</HTML>

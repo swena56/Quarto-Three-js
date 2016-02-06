@@ -4,4 +4,6 @@ class WelcomeController < ApplicationController
   
 	def notes
 	end
+def BasicExample
+end
 end
