@@ -39,10 +39,13 @@
 	
 	<p> Convert Obj model to js with python script provided by three.js called convert_obj_three.py</p>
 	
+	<h1>How to assist me with this project </h1>
+	<p> Download ruby on rails <a href="http://railsinstaller.org/en">Get Rails Installer</a></p>
+	<p> Download a text editor, I have been using Notepad++ <a href="https://notepad-plus-plus.org/download/v6.8.8.html">Get Notepad++</a></p>
+	
 	<pre>
 	 var jsonLoader = new THREE.JSONLoader();
 	 jsonLoader.load( "obj/tree.js", createScene );			
-	 
 	 function createScene( geometry, materials ) {
 	 var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 	 mesh.scale.set(10,10,10);
